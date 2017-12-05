@@ -1,5 +1,7 @@
 ''' Módulo que implementa um Heap de Mínimo Indireto '''
 
+import copy
+
 #pylint: disable=C0103
 
 class FPHeapMinIndireto:
@@ -7,25 +9,23 @@ class FPHeapMinIndireto:
     Heap de Mínimo Indireto '''
     def __init__(self, p=[], v=[]): #pylint: disable=W0102
         self.peso = p
-        self.fp = v
+        self.fp = copy.deepcopy(v)
         self.n = len(self.fp) - 1
-        self.pos = []
-        for u in range(self.n):
-            self.pos.append(u + 1)
+        self.pos = [i + 1 for i in range(self.n)]
 
-    def refaz(self, esq=0, dir=0):
+    def refaz(self, esq=0, direita=0):
         ''' Balanceia a heap '''
         esq = int(esq)
-        dir = int(dir)
+        direita = int(direita)
         j = esq * 2
         x = int(self.fp[esq])
-        while j <= dir:
-            if j < dir and self.peso[int(self.fp[j])] > self.peso[int(self.fp[j + 1])]:
+        while j <= direita:
+            if j < direita and self.peso[self.fp[j]] > self.peso[self.fp[j + 1]]:
                 j = j + 1
             if self.peso[x] <= self.peso[self.fp[j]]:
                 break
             self.fp[esq] = self.fp[j]
-            self.pos[int(self.fp[j])] = esq
+            self.pos[self.fp[j]] = esq
             esq = j
             j = esq * 2
         self.fp[esq] = x
@@ -47,8 +47,8 @@ class FPHeapMinIndireto:
             raise Exception("Erro: heap vazio")
         else:
             minimo = self.fp[1]
-            self.fp[1] = self.fp[int(self.n)]
-            self.pos[self.fp[int(self.n)]] = 1
+            self.fp[1] = self.fp[self.n]
+            self.pos[self.fp[self.n]] = 1
             self.n = self.n - 1
             self.refaz(1, self.n)
         return minimo
@@ -58,11 +58,11 @@ class FPHeapMinIndireto:
         i = int(self.pos[int(i)])
         x = int(self.fp[int(i)])
         if chaveNova < 0:
-            raise Exception("Erro: chaveNova com valor incorreto")
+            raise ValueError("Erro: chaveNova com valor incorreto")
         self.peso[x] = chaveNova
-        while i > 1 and self.peso[x] <= self.peso[int(self.fp[int(i / 2)])]:
+        while i > 1 and self.peso[x] <= self.peso[self.fp[int(i / 2)]]:
             self.fp[i] = self.fp[int(i / 2)]
-            self.pos[int(self.fp[int(i / 2)])] = i
+            self.pos[self.fp[int(i / 2)]] = i
             i = int(i / 2)
         self.fp[i] = x
         self.pos[x] = i

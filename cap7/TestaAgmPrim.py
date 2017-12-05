@@ -9,7 +9,7 @@ from AgmPrim import AgmPrim
 
 #pylint: disable=C0103
 
-raiz = int(input("Raiz da AGM:"))
+raiz = 2#int(input("Raiz da AGM:"))
 # grafo = EntradaDeGrafo.digitarGrafo()
 grafo = Grafo(6)
 arestas = [[0, 1, 6],
@@ -26,6 +26,7 @@ for aresta in arestas:
     a = EntradaDeGrafo.converteAresta(aresta[0], aresta[1], aresta[2])
     EntradaDeGrafo.insereArestaS(grafo, a.v1, a.v2, a.peso)
 
+grafo.imprime()
 agm = AgmPrim(grafo)
 agm.obterAgm(raiz)
 agm.imprime()

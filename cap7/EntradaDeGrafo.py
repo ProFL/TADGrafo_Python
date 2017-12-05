@@ -26,7 +26,7 @@ class EntradaDeGrafo:
     @staticmethod
     def insereArestaS(grafo=Grafo(), v1=0, v2=0, peso=0): #pylint: disable=C0111
         grafo.insereAresta(int(v1), int(v2), int(peso))
-        grafo.insereAresta(int(v1), int(v2), int(peso))
+        grafo.insereAresta(int(v2), int(v1), int(peso))
 
     @staticmethod
     def digitarGrafo(): #pylint: disable=C0111

@@ -18,15 +18,12 @@ class AgmPrim:
     def obterAgm(self, raiz=0):
         ''' Gera a MST '''
         n = self.grafo.numVertices
-        self.peso = [0.0 for i in range(n)]
+        self.peso = [float("inf") for i in range(n)]
         vs = [0 for i in range(n + 1)]
-        itensHeap = [False for i in range(n)]
-        self.antecessor = [0 for i in range(n)]
+        itensHeap = [True for i in range(n)]
+        self.antecessor = [-1 for i in range(n)]
         for u in range(n):
-            self.antecessor[u] = -1
-            self.peso[u] = float("inf")
             vs[u + 1] = u
-            itensHeap[u] = True
         self.peso[int(raiz)] = 0
         heap = FPHeapMinIndireto(self.peso, vs)
         heap.constroi()
