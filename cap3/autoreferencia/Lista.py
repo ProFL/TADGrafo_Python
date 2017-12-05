@@ -48,7 +48,7 @@ class Lista:
         e lança uma exception se a lista estiver
         vazia ou a chave for None '''
         if self.vazia() or chave is None:
-            raise Exception("Erro: Lista vazia ou chave inválida")
+            raise IndexError("Erro: Lista vazia ou chave inválida")
         aux = self.primeiro
         while aux.prox is not None and not aux.prox.item == chave:
             aux = aux.prox
@@ -65,7 +65,7 @@ class Lista:
         ''' Retira e retorna o primeiro elemento da lista
         ou lança uma exceção se vazia '''
         if self.vazia():
-            raise Exception("Erro: Lista vazia")
+            raise IndexError("Erro: Lista vazia")
         aux = self.primeiro
         q = aux.prox
         item = q.item
