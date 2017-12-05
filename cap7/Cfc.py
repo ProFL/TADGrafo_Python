@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/listaadj/autoreferencia")
 from Grafo import Grafo
 from BuscaEmProfundidade import BuscaEmProfundidade
+import copy
 
 #pylint: disable=C0103
 
@@ -29,35 +30,36 @@ class Cfc:
             return vMax
 
     def __init__(self, grafo=Grafo()):
-        self.grafo = grafo
+        self.grafo = copy.deepcopy(grafo)
+        self.tt = None
 
-    def visitaDfs(self, grafo=Grafo(), u=0, tt=TempoTermino()):
+    def visitaDfs(self, grafo=Grafo(), u=0):
         ''' Visita DFS modificada para ser executada no
         Grafo Transposto a fim de encontrar os ciclos '''
-        tt.restantes[int(u)] = False
-        tt.numRestantes = tt.numRestantes - 1
+        self.tt.restantes[int(u)] = False
+        self.tt.numRestantes = self.tt.numRestantes - 1
         print("  Vertice: " + str(u))
         if not self.grafo.listaAdjVazia(u):
             a = self.grafo.primeiroListaAdj(u)
             while a is not None:
                 v = a.v2
-                if tt.restantes[v]:
-                    self.visitaDfs(grafo, v, tt)
+                if self.tt.restantes[v]:
+                    self.visitaDfs(grafo, v)
                 a = self.grafo.proxAdj(u)
 
     def obterCfc(self):
         ''' Método que retorna um CFC '''
         dfs = BuscaEmProfundidade(self.grafo)
         dfs.buscaEmProfundidade()
-        tt = Cfc.TempoTermino(self.grafo.numVertices)
+        self.tt = Cfc.TempoTermino(self.grafo.numVertices)
         for u in range(self.grafo.numVertices):
-            tt.f[u] = int(dfs.f[u])
-            tt.restantes[u] = True
+            self.tt.f[u] = int(dfs.f[u])
+            self.tt.restantes[u] = True
         print()
         grafoT = self.grafo.grafoTransposto()
-        while tt.numRestantes > 0:
-            vRaiz = tt.maxTT()
+        while self.tt.numRestantes > 0:
+            vRaiz = self.tt.maxTT()
             print("Raiz da próxima árvore: " + str(vRaiz))
-            self.visitaDfs(grafoT, vRaiz, tt)
+            self.visitaDfs(grafoT, vRaiz)
 
 #pylint: enable=C0103
