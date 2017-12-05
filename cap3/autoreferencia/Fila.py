@@ -26,8 +26,8 @@ class Fila:
         item = None
         if self.vazia():
             raise Exception("Erro: A fila esta vazia")
-        item = self.frente.item
         self.frente = self.frente.prox
+        item = self.frente.item
         return item
 
     def vazia(self):
