@@ -36,16 +36,16 @@ class Cfc:
     def visitaDfs(self, grafo=Grafo(), u=0):
         ''' Visita DFS modificada para ser executada no
         Grafo Transposto a fim de encontrar os ciclos '''
-        self.tt.restantes[int(u)] = False
+        self.tt.restantes[u] = False
         self.tt.numRestantes = self.tt.numRestantes - 1
         print("  Vertice: " + str(u))
-        if not self.grafo.listaAdjVazia(u):
-            a = self.grafo.primeiroListaAdj(u)
+        if not grafo.listaAdjVazia(u):
+            a = grafo.primeiroListaAdj(u)
             while a is not None:
                 v = a.v2
                 if self.tt.restantes[v]:
                     self.visitaDfs(grafo, v)
-                a = self.grafo.proxAdj(u)
+                a = grafo.proxAdj(u)
 
     def obterCfc(self):
         ''' Método que retorna um CFC '''
@@ -53,7 +53,7 @@ class Cfc:
         dfs.buscaEmProfundidade()
         self.tt = Cfc.TempoTermino(self.grafo.numVertices)
         for u in range(self.grafo.numVertices):
-            self.tt.f[u] = int(dfs.f[u])
+            self.tt.f[u] = dfs.f[u]
             self.tt.restantes[u] = True
         print()
         grafoT = self.grafo.grafoTransposto()
